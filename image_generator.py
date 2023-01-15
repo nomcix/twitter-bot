@@ -1,3 +1,5 @@
+import os
+import re
 import logging
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
@@ -97,9 +99,13 @@ def create_tweet_image(tweet_term, tweet_definition):
             #draw the closing bracket
             image_editable.text((bracket_xpos, closing_bracket_ypos), '}', font=font_style, fill=WHITE)
 
+            # normalize the path to remove any invalid characters
+            image_path = re.sub(r'[\\/*?:"<>|]', '', tweet_term)
+
             # save the image
-            editor_image.save(f"tweets/{tweet_term}.png", format="PNG")
+            editor_image.save(f"tweets/{image_path}.png", format="PNG")
             logger.info("Tweet image created...")
+            return image_path
     except Exception as err:
         logger.error("Error creating tweet image...", exc_info=True)
         raise

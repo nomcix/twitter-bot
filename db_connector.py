@@ -1,6 +1,5 @@
 import os
 import logging
-import random
 import pymongo
 from dotenv import load_dotenv
 
